@@ -17,7 +17,7 @@ class LoginBar extends Component {
 
     handleSubmit = (event) => {
         axios.post(this.props.url + '/active_user', {username: this.state.username, password: this.state.password})
-            .then((data) => {this.props.onLogin(data)})
+            .then((data) => {this.props.onLogin(data.data.user_auth)})
             .catch(e => console.log(e));
         event.preventDefault();
     };
