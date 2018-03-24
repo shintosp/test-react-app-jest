@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 
-// import './AddQuoteForm.css'
-
 class LoginBar extends Component {
     constructor(props) {
         super(props);

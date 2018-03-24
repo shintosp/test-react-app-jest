@@ -48,7 +48,7 @@ class App extends Component {
       <div className="App">
           Rumble React!!!
           <LoginBar url={url} onLogin={this.onLogin}/>
-          <Room messages={this.state.messages} roomName={this.state.roomName}/>
+          <Room messages={this.state.messages} roomName={this.state.roomName} url={url} auth={this.state.authToken}/>
       </div>
     );
   }
