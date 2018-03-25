@@ -9,18 +9,16 @@ const url = 'http://127.0.0.1:5555';
 class App extends Component {
     constructor(props) {
         super(props);
+        this.timer = null;
         this.state = {
             roomName: 'room0',
-            messages: [
-                ['2-24-2018:1', 'Saar', 'Hello!'],
-                ['2-24-2018:2', 'Gigi', 'Hi!']
-            ]};
+            messages: [['2-24-2018:2', 'SYSTEM', 'Not Logged In']]};
     }
 
     onLogin = (authToken) => {
         this.setState({...this.state, authToken: authToken});
         this.joinRoom()
-            .then(this.fetchMessages())
+            .then(this.timer = setInterval(() => this.fetchMessages(), 1000));
     };
 
     joinRoom = () => {
@@ -46,7 +44,7 @@ class App extends Component {
     render() {
     return (
       <div className="App">
-          Rumble React!!!
+          Rumble
           <LoginBar url={url} onLogin={this.onLogin}/>
           <Room messages={this.state.messages} roomName={this.state.roomName} url={url} auth={this.state.authToken}/>
       </div>

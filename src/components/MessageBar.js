@@ -17,6 +17,7 @@ class MessageBar extends Component {
         const config = { headers: {Authorization: this.props.auth}};
         axios.post(`${this.props.url}/message/${this.props.roomName}`, {message: this.state.message}, config)
             .then((data) => data)
+            .then((data) => this.setState({...this.state, message: ''}))
             .catch(e => console.log(e));
         event.preventDefault();
     };

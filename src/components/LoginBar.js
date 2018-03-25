@@ -4,42 +4,52 @@ import axios from 'axios'
 class LoginBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {username: 'abc', password: 'abc', nickname: ''}
+        this.state = {username: '', password: '', nickname: ''}
     }
 
-    handleChange = (key) => {
+    handleChange = () => {
         return (event) => {
-            this.setState({...this.state, key: event.target.value});
+            let key = event.target.getAttribute('name');
+            let newState = {...this.state};
+            newState[key] = event.target.value;
+            this.setState(newState);
         }
     };
 
-    handleSubmit = (event) => {
+    handleLogin = (event) => {
         axios.post(this.props.url + '/active_user', {username: this.state.username, password: this.state.password})
             .then((data) => {this.props.onLogin(data.data.user_auth)})
             .catch(e => console.log(e));
         event.preventDefault();
     };
 
+    handleRegister = (event) => {
+        axios.post(this.props.url + '/user', {username: this.state.username, password: this.state.password, handle: this.state.nickname})
+            .then((data) => this.handleLogin(event))
+            .catch(e => console.log(e));
+        event.preventDefault();
+    };
+
     render = () => {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form>
                 <label>
                     Username:
-                    <input className="username" type="text" value={this.state.username}
-                           onChange={this.handleChange('username')}/>
+                    <input className="username" name="username" type="text" value={this.state.username}
+                           onChange={this.handleChange()}/>
                 </label>
                 <label>
                     Password:
-                    <input className="password" type="password" value={this.state.password}
-                           onChange={this.handleChange('password')}/>
+                    <input className="password" name="password" type="password" value={this.state.password}
+                           onChange={this.handleChange()}/>
                 </label>
                 <label>
                     Nickname:
-                    <input className="nickname" type="text" value={this.state.nickname}
-                           onChange={this.handleChange('nickname')}/>
+                    <input className="nickname" name="nickname" type="text" value={this.state.nickname}
+                           onChange={this.handleChange()}/>
                 </label>
-                <input className="login" type="submit" value="Login" onSubmit={this.handleSubmit}/>
-                <input className="register" type="submit" value="Register"/>
+                <button className="login" onClick={this.handleLogin}>Login</button>
+                <button className="register" onClick={this.handleRegister}>Register</button>
             </form>
         )
     }
