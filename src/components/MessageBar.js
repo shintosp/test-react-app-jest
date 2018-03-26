@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import { Button } from 'react-bootstrap';
+import './../App.css';
 
 class MessageBar extends Component {
     constructor(props) {
@@ -24,10 +26,11 @@ class MessageBar extends Component {
 
     render = () => {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input className="message" type="text" value={this.state.message}
-                           onChange={this.handleChange()}/>
-                <input className="send" type="submit" value="Send" onSubmit={this.handleSubmit}/>
+            <form className="App-MessageBar" onSubmit={this.handleSubmit}>
+                <input className="App-MessageBox form-control" type="text" value={this.state.message}
+                       onChange={this.handleChange()}/>
+                {/*<input className="send" type="submit" value="Send"/>*/}
+                <Button className="App-SendButton" bsStyle="primary" bsSize="small" type="submit">Send</Button>
             </form>
         )
     }

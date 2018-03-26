@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import { Button, Navbar } from 'react-bootstrap';
+import './../App.css';
 
 class LoginBar extends Component {
     constructor(props) {
@@ -32,25 +34,33 @@ class LoginBar extends Component {
 
     render = () => {
         return (
-            <form>
-                <label>
-                    Username:
-                    <input className="username" name="username" type="text" value={this.state.username}
-                           onChange={this.handleChange()}/>
-                </label>
-                <label>
-                    Password:
-                    <input className="password" name="password" type="password" value={this.state.password}
-                           onChange={this.handleChange()}/>
-                </label>
-                <label>
-                    Nickname:
-                    <input className="nickname" name="nickname" type="text" value={this.state.nickname}
-                           onChange={this.handleChange()}/>
-                </label>
-                <button className="login" onClick={this.handleLogin}>Login</button>
-                <button className="register" onClick={this.handleRegister}>Register</button>
-            </form>
+            <Navbar>
+                <Navbar.Header>
+                    <img className="App-logo" width={80} height={40} src="/images/logo.png"/>
+                    <Navbar.Toggle />
+                </Navbar.Header>
+                <Navbar.Collapse>
+                    <Navbar.Form pullLeft>
+                        <label>
+                            Username:
+                            <input name="username" type="text" value={this.state.username}
+                                   onChange={this.handleChange()}/>
+                        </label>
+                        <label>
+                            Password:
+                            <input name="password" type="password" value={this.state.password}
+                                   onChange={this.handleChange()}/>
+                        </label>
+                        <label>
+                            Nickname:
+                            <input name="nickname" type="text" value={this.state.nickname}
+                                   onChange={this.handleChange()}/>
+                        </label>
+                        <Button className="App-Button" type="submit" onClick={this.handleLogin}>Login</Button>
+                        <Button className="App-Button" type="submit" onClick={this.handleRegister}>Register</Button>
+                    </Navbar.Form>
+                </Navbar.Collapse>
+            </Navbar>
         )
     }
 }

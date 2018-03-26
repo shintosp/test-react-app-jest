@@ -1,10 +1,10 @@
 .App {
   text-align: center;
+  height: 100%;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
 }
 
 .App-header {
@@ -22,7 +22,37 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.App-MessageBar {
+  width: 100%;
+  horiz-align: center;
+  position: fixed;
+  bottom: 0;
+  padding: 5px;
+  display: flex;
+}
+
+.App-MessageList {
+  padding-bottom: 50px;
+}
+
+.App-MessageBox {
+  background-color: aliceblue;
+}
+
+.App-Message {
+  background-color: aliceblue;
+  padding: 10px
+}
+
+input, label, Button {
+  margin-left: 8px
+}
+
+li {
+  list-style-type: none;
+}
+
+@media all {
+  .App-MessageBox { flex: 13 0; }
+  .App-SendButton { flex: 1 auto; }
 }
