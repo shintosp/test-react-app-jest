@@ -4,7 +4,7 @@ import LoginBar from './components/LoginBar'
 import Room from './components/Room'
 import axios from 'axios'
 
-const url = 'http://127.0.0.1:5555';
+const url = 'http://saarsayfan.pythonanywhere.com/';
 
 class App extends Component {
     constructor(props) {

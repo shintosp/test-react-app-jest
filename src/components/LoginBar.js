@@ -56,8 +56,8 @@ class LoginBar extends Component {
                             <input name="nickname" type="text" value={this.state.nickname}
                                    onChange={this.handleChange()}/>
                         </label>
-                        <Button className="App-Button" type="submit" onClick={this.handleLogin}>Login</Button>
-                        <Button className="App-Button" type="submit" onClick={this.handleRegister}>Register</Button>
+                        <Button className="App-Button" bsSize="small" type="submit" onClick={this.handleLogin}>Login</Button>
+                        <Button className="App-Button" bsSize="small" type="submit" onClick={this.handleRegister}>Register</Button>
                     </Navbar.Form>
                 </Navbar.Collapse>
             </Navbar>
