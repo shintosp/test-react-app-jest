@@ -44,7 +44,7 @@ class App extends Component {
     render() {
     return (
       <div className="App">
-          UPDATED2
+          UPDATED
           <LoginBar url={url} onLogin={this.onLogin}/>
           <Room messages={this.state.messages} roomName={this.state.roomName} url={url} auth={this.state.authToken}/>
       </div>
