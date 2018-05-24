@@ -6,7 +6,7 @@ import './../App.css';
 class LoginBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {username: '', password: '', nickname: ''}
+        this.state = {username: '', password: '', nickname: '', loggedIn: false}
     }
 
     handleChange = () => {
@@ -21,6 +21,7 @@ class LoginBar extends Component {
     handleLogin = (event) => {
         axios.post(this.props.url + '/active_user', {username: this.state.username, password: this.state.password})
             .then((data) => {this.props.onLogin(data.data.user_auth)})
+            .then(this.setState({...this.state, loggedIn: true}))
             .catch(e => console.log(e));
         event.preventDefault();
     };
@@ -34,11 +35,12 @@ class LoginBar extends Component {
 
     render = () => {
         return (
-            <Navbar>
+            <Navbar className="App-header">
                 <Navbar.Header>
                     <img className="App-logo" width={80} height={40} src="/images/logo.png"/>
                     <Navbar.Toggle />
                 </Navbar.Header>
+                {this.state.loggedIn ? "" :
                 <Navbar.Collapse>
                     <Navbar.Form pullLeft>
                         <label>
@@ -59,7 +61,7 @@ class LoginBar extends Component {
                         <Button className="App-Button" bsSize="small" type="submit" onClick={this.handleLogin}>Login</Button>
                         <Button className="App-Button" bsSize="small" type="submit" onClick={this.handleRegister}>Register</Button>
                     </Navbar.Form>
-                </Navbar.Collapse>
+                </Navbar.Collapse>}
             </Navbar>
         )
     }

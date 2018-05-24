@@ -8,7 +8,7 @@ const Room = ({messages, roomName, url, auth}) =>
     <div name="room" className="App">
         <div className="App-MessageList">
             <MessageList messages={messages}/>
-        <div/>
+        </div>
         <MessageBar roomName={roomName} url={url} auth={auth}/>
     </div>;
 
