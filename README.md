@@ -22,4 +22,3 @@ npm install
 
 ### General Deployment
 Simply run `rumble-react/pythonanywhere_deploy.py`
-`
