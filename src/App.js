@@ -6,8 +6,7 @@ import Room from './components/Room'
 import axios from 'axios'
 import RoomList from "./components/RoomList";
 
-const url = 'http://saarsayfan.pythonanywhere.com/';
-//const url = 'http://localhost:5555';
+const url = process.env.NODE_ENV === 'development' ? 'http://localhost:5555' : 'http://saarsayfan.pythonanywhere.com/'
 
 class App extends Component {
     constructor(props) {
