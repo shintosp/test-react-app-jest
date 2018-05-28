@@ -14,7 +14,7 @@ class App extends Component {
         super(props);
         this.timer = null;
         this.state = {
-            rooms: ['room0'],
+            rooms: [],
             roomName: 'room0',
             messages: [['2-24-2018:2', 'SYSTEM', 'Not Logged In']]
         };
@@ -23,35 +23,48 @@ class App extends Component {
     onLogin = (authToken) => {
         this.setState({...this.state, authToken: authToken});
         this.getRooms();
-        this.joinRoom()
-            .then(this.timer = setInterval(() => this.fetchMessages(), 1000));
     };
 
     onRoomChange = (room) => {
+        console.log("On Room Change: " + room);
+        this.setState({...this.state, roomName: room});
     };
 
     getRooms = () => {
         const config = {headers: {Authorization: this.state.authToken}};
         return axios.get(`${url}/rooms`, config)
-            .then((data) => this.setState({...this.state, rooms: data.data.result}))
+            .then((data) => {
+                this.setState({...this.state, rooms: data.data.result});
+                this.joinRooms(data.data.result);
+            })
             .catch(e => console.log(e));
     };
 
-    joinRoom = () => {
+    joinRooms = (rooms) => {
         const config = {headers: {Authorization: this.state.authToken}};
-        return axios.post(`${url}/room_member/${this.state.roomName}`, {}, config)
+        console.log(rooms[0]);
+        axios.post(`${url}/room_member/${rooms[0]}`, {}, config)
             .then((data) => data)
-            .catch(e => console.log(e));
+            .catch(e => console.log(e))
+            .then(this.timer = setInterval(() => this.fetchMessages(), 1000));
+        for (let i = 1; i < this.state.rooms.length; i++)
+        {
+            axios.post(`${url}/room_member/${rooms[i]}`, {}, config)
+                .then((data) => data)
+                .catch(e => console.log(e));
+        }
     };
 
     fetchMessages = () => {
+        let room = this.state.roomName;
+        console.log("Fetch Messages: " + room);
         const config = {headers: {Authorization: this.state.authToken}};
         const end = new Date().toISOString();
         let start = new Date();
         start.setDate(start.getDate() - 10000);
         start = start.toISOString();
 
-        axios.get(`${url}/messages/${this.state.roomName}/${start}/${end}`, config)
+        axios.get(`${url}/messages/${room}/${start}/${end}`, config)
             .then((response) => {
                 this.setState({...this.state, messages: response.data.result})
             })
@@ -59,7 +72,9 @@ class App extends Component {
     };
 
     render() {
-        let roomList = <RoomList rooms={this.state.rooms} onRoomChange={this.onRoomChange}/>;
+        let roomList = <RoomList rooms={this.state.rooms}
+                                 onRoomChange={this.onRoomChange}
+                                 activeRoom={this.state.roomName}/>;
         return (
             <div className="App">
                 <Sidebar sidebar={roomList} docked={true} pullRight={true}>
