@@ -5,7 +5,9 @@ def main():
 
     gp = sh.git('pull')
     if gp.stdout == 'Already up-to-date.\n':
-        return
+        continue = input ('UP TO DATE. CONTINUE (Y/N)?')
+        if continue.lower() != 'y':
+            return
 
     nrb = sh.npm('run', 'build')
     if 'STDERR' in nrb.stdout:

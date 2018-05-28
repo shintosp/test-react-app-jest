@@ -6,8 +6,8 @@ import Room from './components/Room'
 import axios from 'axios'
 import RoomList from "./components/RoomList";
 
-//const url = 'http://saarsayfan.pythonanywhere.com/';
-const url = 'http://localhost:5555';
+const url = 'http://saarsayfan.pythonanywhere.com/';
+//const url = 'http://localhost:5555';
 
 class App extends Component {
     constructor(props) {

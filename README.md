@@ -21,4 +21,8 @@ npm install
 ```
 
 ### General Deployment
-Simply run `rumble-react/pythonanywhere_deploy.py`
+```
+cd rumble-react
+python pythonanywhere_deploy.py
+```
+You may need to [clear your browser cache](https://kb.iu.edu/d/ahic) after deployment
