@@ -37,7 +37,7 @@ class LoginBar extends Component {
         return (
             <Navbar className="App-header">
                 <Navbar.Header>
-                    <img className="App-logo" width={80} height={40} src="/images/logo.png"/>
+                    <img className="App-logo" width={80} height={40} src="/images/logo.png" alt="logo"/>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 {this.state.loggedIn ? "" :
