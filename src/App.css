@@ -1,10 +1,12 @@
 .App {
   text-align: center;
   overflow-x: auto;
+  min-height: 500px;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  /* animation: App-logo-spin infinite 20s linear;
+  padding-bottom: 10px; */
 }
 
 .App-header {
@@ -23,14 +25,13 @@
 .App-MessageBar {
   width: 100%;
   horiz-align: center;
-  position: fixed;
   bottom: 0;
   padding: 5px;
   display: flex;
+  background-color: #c6dbe2;
 }
 
 .App-MessageList {
-  padding-bottom: 50px;
   overflow-y: auto;
   height: calc(100vh - 120px);
 }

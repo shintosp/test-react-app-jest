@@ -7,6 +7,7 @@ import axios from 'axios'
 import RoomList from "./components/RoomList";
 
 const url = 'http://saarsayfan.pythonanywhere.com/';
+
 //const url = 'http://localhost:5555';
 
 class App extends Component {
@@ -16,7 +17,7 @@ class App extends Component {
         this.state = {
             rooms: [],
             roomName: 'room0',
-            messages: [['2-24-2018:2', 'SYSTEM', 'Not Logged In']]
+            messages: [['ALERT', 'SYSTEM', 'Not Logged In']]
         };
     }
 
@@ -47,8 +48,7 @@ class App extends Component {
             .then((data) => data)
             .catch(e => console.log(e))
             .then(this.timer = setInterval(() => this.fetchMessages(), 1000));
-        for (let i = 1; i < this.state.rooms.length; i++)
-        {
+        for (let i = 1; i < this.state.rooms.length; i++) {
             axios.post(`${url}/room_member/${rooms[i]}`, {}, config)
                 .then((data) => data)
                 .catch(e => console.log(e));
@@ -75,16 +75,20 @@ class App extends Component {
         let roomList = <RoomList rooms={this.state.rooms}
                                  onRoomChange={this.onRoomChange}
                                  activeRoom={this.state.roomName}/>;
+        const styles = {content: {'overflowY': 'hidden'}};
         return (
             <div className="App">
-                <Sidebar sidebar={roomList} docked={true} pullRight={true}>
+                <Sidebar sidebar={roomList} docked={true} pullRight={true} styles={styles}>
                     <LoginBar url={url} onLogin={this.onLogin}/>
-                    <Room messages={this.state.messages} roomName={this.state.roomName} url={url}
+                    <Room messages={this.state.messages}
+                          roomName={this.state.roomName}
+                          url={url}
                           auth={this.state.authToken}/>
                 </Sidebar>
             </div>
-        );
+        )
     }
 }
+
 
 export default App;
