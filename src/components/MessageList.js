@@ -4,10 +4,10 @@ import './../App.css';
 
 const MessageList = ({messages}) =>
     messages.map((message) =>
-        <Media className="App-Message text-left">
+        <Media className="App-Message text-left" key={message[0]}>
             <Media.Body>
                 <Media.Heading>{message[1]} <Badge>{message[0]}</Badge></Media.Heading>
-                <li key={message[0]}>{message[2]}</li>
+                <li>{message[2]}</li>
             </Media.Body>
         </Media>);
 
