@@ -15,7 +15,7 @@ class App extends Component {
         this.state = {
             rooms: [],
             roomName: 'room0',
-            messages: [['ALERT', 'SYSTEM', 'Not Logged In']]
+            messages: [['!ALERT', 'SYSTEM', 'Not Logged In']]
         };
     }
 
