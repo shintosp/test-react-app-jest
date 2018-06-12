@@ -25,19 +25,20 @@ class MessageList extends Component {
         {
             return dateString.slice(1);
         }
-
-        let date = new Date(dateString);
+        let date = new Date(dateString + ".000Z"); // ISO 8601 format
+        console.log(date.toString());
         let today = new Date();
         let newDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
         let toDate = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
         if (newDate === toDate)
-        {
-            //let hr = date.getHours();
-            //let min = date.getMinutes();
-            //let sec = date.getSeconds();
             newDate = "Today";
-            //newDate = newDate + " at " + hr + ":" + min + ":" + sec;
-        }
+
+        let hr = date.getHours();
+        let period = hr < 13 ? " AM" : " PM";
+        hr = hr !== 0 ? (hr < 13 ? hr : hr - 12) : 12;
+        let min = date.getMinutes();
+        min = min > 9 ? min : "0" + min;
+        newDate = newDate + " at " + hr + ":" + min + period;
 
         return newDate;
     };
