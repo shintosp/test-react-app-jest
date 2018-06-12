@@ -1,13 +1,13 @@
-import sh, shutil, glob
+import sh, shutil, glob, subprocess
 
 def main():
     root = '/home/saarsayfan/'
 
-    nvm = sh.nvm('alias default v9.6.1')
+    subprocess.Popen('nvm alias default v9.6.1')
     print(nvm.stdout)
 
     gp = sh.git('pull')
-    if gp.stdout == 'Already up-to-date.\n':
+    if gp.stdout.startswith('Already up-to-date.'):
         continue = input('UP TO DATE. CONTINUE (Y/N)?')
         if continue.lower() != 'y':
             return
@@ -28,7 +28,7 @@ def main():
 
     with open('index.html', 'r+') as f:
         t = f.read()
-        t = t.replace('favicon.ico', 'static/rumble-react/favicon.ico'
+        t = t.replace('favicon.ico', 'static/rumble-react/favicon.ico')
         f.seek(0)
         f.write(t)
         f.truncate()
