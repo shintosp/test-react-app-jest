@@ -19,6 +19,7 @@ nvm alias default v9.6.1
 cd rumble-react
 npm install
 ```
+Or run `install_node.py` (Untested)
 
 ### General Deployment
 ```
