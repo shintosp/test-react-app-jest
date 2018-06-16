@@ -1,14 +1,14 @@
-import sh, shutil, glob, subprocess
+import sh, shutil, glob
 
 def main():
     root = '/home/saarsayfan/'
 
-    subprocess.Popen('nvm alias default v9.6.1')
+    sh.nvm.alias('default', 'v9.6.1')
     print(nvm.stdout)
 
     gp = sh.git('pull')
     if gp.stdout.startswith('Already up-to-date.'):
-        continue = input('UP TO DATE. CONTINUE (Y/N)?')
+        continue = raw_input('UP TO DATE. CONTINUE (Y/N)?')
         if continue.lower() != 'y':
             return
 
