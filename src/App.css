@@ -45,6 +45,20 @@
   padding: 10px
 }
 
+
+.App-ErrorBar {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.App-ErrorMessage {
+  background-color: indianred;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 12px;
+}
+
 .unselectable {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */

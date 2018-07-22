@@ -5,6 +5,7 @@ import LoginBar from './components/LoginBar'
 import Room from './components/Room'
 import axios from 'axios'
 import RoomList from "./components/RoomList";
+import ErrorBar from "./components/ErrorBar";
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:5555' : 'http://saarsayfan.pythonanywhere.com/';
 
@@ -15,7 +16,8 @@ class App extends Component {
         this.state = {
             rooms: [],
             roomName: 'room0',
-            messages: [['!ALERT', 'SYSTEM', 'Not Logged In']]
+            messages: [['!ALERT', 'SYSTEM', 'Not Logged In']],
+            error: ''
         };
     }
 
@@ -36,7 +38,7 @@ class App extends Component {
                 this.setState({...this.state, rooms: data.data.result});
                 this.joinRooms(data.data.result);
             })
-            .catch(e => console.log(e));
+            //.catch(e => console.log(e));
     };
 
     joinRooms = (rooms) => {
@@ -69,6 +71,10 @@ class App extends Component {
             .catch(e => console.log(e));
     };
 
+    onError = (error) => {
+        this.setState({...this.state, error: error.message})
+    };
+
     render() {
         let roomList = <RoomList rooms={this.state.rooms}
                                  onRoomChange={this.onRoomChange}
@@ -77,7 +83,8 @@ class App extends Component {
         return (
             <div className="App">
                 <Sidebar sidebar={roomList} docked={true} pullRight={true} styles={styles}>
-                    <LoginBar url={url} onLogin={this.onLogin}/>
+                    <LoginBar url={url} onLogin={this.onLogin} onError={this.onError}/>
+                    <ErrorBar message={this.state.error}/>
                     <Room messages={this.state.messages}
                           roomName={this.state.roomName}
                           url={url}
