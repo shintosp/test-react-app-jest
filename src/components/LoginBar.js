@@ -21,6 +21,7 @@ class LoginBar extends Component {
             let newState = {...this.state};
             newState[key] = event.target.value;
             this.setState(newState);
+            console.log(this.state);
         }
     };
 
@@ -51,18 +52,12 @@ class LoginBar extends Component {
     };
 
     handleCreateRoom = (event) => {
-        axios.post(this.props.url + '/active_user', {username: this.state.username, password: this.state.password})
-            .then((data) => {
-                this.props.onLogin(data.data.user_auth)
-            })
-            .then(this.setState({...this.state, loggedIn: true}))
-            .catch(e => this.props.onError(e));
-        event.preventDefault();
+        this.props.onCreateRoom(this.props.url, this.state.newRoom);
     };
 
     render = () => {
         return (
-            <Navbar className="App-header">
+            <Navbar>
                 <Navbar.Header>
                     <img className="App-logo" width={80} height={40} src="/images/logo.png" alt="logo"/>
                     <Navbar.Toggle/>
@@ -72,11 +67,11 @@ class LoginBar extends Component {
                         <Navbar.Form pullLeft>
                             <label>
                                 New Room:
-                                <input name="newroom" type="text" value={this.state.newRoom}
+                                <input name="newRoom" type="text" value={this.state.newRoom}
                                        onChange={this.handleChange()}/>
                             </label>
                             <Button className="App-Button" bsSize="small" type="submit"
-                                    onClick={this.handleCreateRoom}>Create Room</Button>
+                                    onClick={(event) => this.handleCreateRoom(event)}>Create Room</Button>
                             <Button className="App-Button" bsSize="small" type="submit"
                                     onClick={this.props.logout}>Logout</Button>
                         </Navbar.Form>

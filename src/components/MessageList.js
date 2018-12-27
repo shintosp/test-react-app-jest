@@ -26,7 +26,6 @@ class MessageList extends Component {
             return dateString.slice(1);
         }
         let date = new Date(dateString + ".000Z"); // ISO 8601 format
-        console.log(date.toString());
         let today = new Date();
         let newDate = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
         let toDate = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();

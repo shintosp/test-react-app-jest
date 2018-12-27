@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import Sidebar from 'react-sidebar';
 import './App.css';
-import LoginBar from './components/LoginBar'
 import Room from './components/Room'
 import axios from 'axios'
 import RoomList from "./components/RoomList";
-import ErrorBar from "./components/ErrorBar";
+import Header from "./components/Header";
 
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:5555' : 'http://saarsayfan.pythonanywhere.com/';
 
@@ -17,18 +16,28 @@ class App extends Component {
             rooms: [],
             roomName: 'room0',
             messages: [['!ALERT', 'SYSTEM', 'Not Logged In']],
-            error: ''
+            error: '',
         };
     }
 
     onLogin = (authToken) => {
         this.setState({...this.state, authToken: authToken});
         this.getRooms();
+        console.log(this.state);
     };
 
     onRoomChange = (room) => {
         console.log("On Room Change: " + room);
         this.setState({...this.state, roomName: room});
+    };
+    
+    onCreateRoom = (url, room) => {
+        axios.post(`${url}/room/${room}`, {},
+            {headers: {Authorization: this.state.authToken}})
+            .then((data) => {
+                this.getRooms();
+            })
+            .catch(e => this.onError(e));
     };
 
     getRooms = () => {
@@ -38,7 +47,7 @@ class App extends Component {
                 this.setState({...this.state, rooms: data.data.result});
                 this.joinRooms(data.data.result);
             })
-            //.catch(e => console.log(e));
+            .catch(e => console.log(e));
     };
 
     joinRooms = (rooms) => {
@@ -47,7 +56,8 @@ class App extends Component {
         axios.post(`${url}/room_member/${rooms[0]}`, {}, config)
             .then((data) => data)
             .catch(e => console.log(e))
-            .then(this.timer = setInterval(() => this.fetchMessages(), 1000));
+            .then(() => {if (this.timer === null){
+                this.timer = setInterval(() => this.fetchMessages(), 1000)}});
         for (let i = 1; i < this.state.rooms.length; i++) {
             axios.post(`${url}/room_member/${rooms[i]}`, {}, config)
                 .then((data) => data)
@@ -57,7 +67,7 @@ class App extends Component {
 
     fetchMessages = () => {
         let room = this.state.roomName;
-        console.log("Fetch Messages: " + room);
+        // console.log("Fetch Messages: " + room);
         const config = {headers: {Authorization: this.state.authToken}};
         const end = new Date().toISOString();
         let start = new Date();
@@ -66,9 +76,14 @@ class App extends Component {
 
         axios.get(`${url}/messages/${room}/${start}/${end}`, config)
             .then((response) => {
-                this.setState({...this.state, messages: response.data.result})
+                let messages = response.data.result;
+                if (messages.length !== this.state.messages.length) {
+                    this.setState({...this.state, messages: response.data.result});
+                }
             })
             .catch(e => console.log(e));
+
+        console.log(this.state);
     };
 
     onError = (error) => {
@@ -83,8 +98,11 @@ class App extends Component {
         return (
             <div className="App">
                 <Sidebar sidebar={roomList} docked={true} pullRight={true} styles={styles}>
-                    <LoginBar url={url} onLogin={this.onLogin} onError={this.onError}/>
-                    <ErrorBar message={this.state.error}/>
+                    <Header url={url}
+                            onLogin={this.onLogin}
+                            onCreateRoom={this.onCreateRoom}
+                            onError={this.onError}
+                            message={this.state.error}/>
                     <Room messages={this.state.messages}
                           roomName={this.state.roomName}
                           url={url}
