@@ -23,11 +23,9 @@ class App extends Component {
     onLogin = (authToken) => {
         this.setState({...this.state, authToken: authToken});
         this.getRooms();
-        console.log(this.state);
     };
 
     onRoomChange = (room) => {
-        console.log("On Room Change: " + room);
         this.setState({...this.state, roomName: room});
     };
     
@@ -52,7 +50,6 @@ class App extends Component {
 
     joinRooms = (rooms) => {
         const config = {headers: {Authorization: this.state.authToken}};
-        console.log(rooms[0]);
         axios.post(`${url}/room_member/${rooms[0]}`, {}, config)
             .then((data) => data)
             .catch(e => console.log(e))
@@ -82,8 +79,6 @@ class App extends Component {
                 }
             })
             .catch(e => console.log(e));
-
-        console.log(this.state);
     };
 
     onError = (error) => {
@@ -94,10 +89,13 @@ class App extends Component {
         let roomList = <RoomList rooms={this.state.rooms}
                                  onRoomChange={this.onRoomChange}
                                  activeRoom={this.state.roomName}/>;
-        const styles = {content: {'overflowY': 'hidden'}};
+        const scrollStyle = {content: {'overflowY': 'hidden', 'overflowX': 'hidden'}};
+        let vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        let height = vh - (this.state.error === '' ? 124 :  174);
+        const heightStyle = {'height': `${height}px`};
         return (
             <div className="App">
-                <Sidebar sidebar={roomList} docked={true} pullRight={true} styles={styles}>
+                <Sidebar sidebar={roomList} docked={true} pullRight={true} styles={scrollStyle}>
                     <Header url={url}
                             onLogin={this.onLogin}
                             onCreateRoom={this.onCreateRoom}
@@ -106,7 +104,8 @@ class App extends Component {
                     <Room messages={this.state.messages}
                           roomName={this.state.roomName}
                           url={url}
-                          auth={this.state.authToken}/>
+                          auth={this.state.authToken}
+                          heightStyle={heightStyle}/>
                 </Sidebar>
             </div>
         )

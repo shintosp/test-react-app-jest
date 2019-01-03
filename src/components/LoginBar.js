@@ -21,7 +21,6 @@ class LoginBar extends Component {
             let newState = {...this.state};
             newState[key] = event.target.value;
             this.setState(newState);
-            console.log(this.state);
         }
     };
 
