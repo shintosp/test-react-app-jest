@@ -39,6 +39,12 @@ class LoginBar extends Component {
         event.preventDefault();
     };
 
+    handleLogout = (event) => {
+        this.props.onLogout();
+        this.state.loggedIn = false;
+        event.preventDefault();
+    };
+
     handleRegister = (event) => {
         axios.post(this.props.url + '/user', {
             username: this.state.username,
@@ -72,7 +78,7 @@ class LoginBar extends Component {
                             <Button className="App-Button" bsSize="small" type="submit"
                                     onClick={(event) => this.handleCreateRoom(event)}>Create Room</Button>
                             <Button className="App-Button" bsSize="small" type="submit"
-                                    onClick={this.props.logout}>Logout</Button>
+                                    onClick={this.handleLogout}>Logout</Button>
                         </Navbar.Form>
                     </Navbar.Collapse>
                     :

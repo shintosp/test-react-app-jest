@@ -25,6 +25,14 @@ class App extends Component {
         this.getRooms();
     };
 
+    onLogout = () => {
+        this.timer = null;
+        this.setState({...this.state,
+            authToken: '',
+            rooms: [],
+            messages: [['!ALERT', 'SYSTEM', 'Not Logged In']]});
+    };
+
     onRoomChange = (room) => {
         this.setState({...this.state, roomName: room});
     };
@@ -105,7 +113,8 @@ class App extends Component {
                             onCreateRoom={this.onCreateRoom}
                             onError={this.onError}
                             message={this.state.error}
-                            clearError={this.clearError}/>
+                            clearError={this.clearError}
+                            onLogout={this.onLogout}/>
                     <Room messages={this.state.messages}
                           roomName={this.state.roomName}
                           url={url}
