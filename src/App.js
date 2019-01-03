@@ -85,6 +85,10 @@ class App extends Component {
         this.setState({...this.state, error: error.message})
     };
 
+    clearError = () => {
+        this.setState({...this.state, error: ''})
+    };
+
     render() {
         let roomList = <RoomList rooms={this.state.rooms}
                                  onRoomChange={this.onRoomChange}
@@ -100,7 +104,8 @@ class App extends Component {
                             onLogin={this.onLogin}
                             onCreateRoom={this.onCreateRoom}
                             onError={this.onError}
-                            message={this.state.error}/>
+                            message={this.state.error}
+                            clearError={this.clearError}/>
                     <Room messages={this.state.messages}
                           roomName={this.state.roomName}
                           url={url}
