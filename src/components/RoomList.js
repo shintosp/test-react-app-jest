@@ -8,12 +8,13 @@ const RoomList = (props) => {
             paddingRight: "10px",
             paddingLeft: "10px"
         };
-        return <li className="unselectable"
+        return  <li className="unselectable"
                    key={room}
                    style={style}
                    onClick={() => {
                        props.onRoomChange(room)
-                   }}>{room}</li>;
+                   }}>{room}>
+                </li>;
     });
     return rooms;
 };

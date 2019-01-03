@@ -62,7 +62,7 @@ class App extends Component {
             .then((data) => data)
             .catch(e => console.log(e))
             .then(() => {if (this.timer === null){
-                this.timer = setInterval(() => this.fetchMessages(), 1000)}});
+                this.timer = setInterval(() => this.fetchMessages(), 500)}});
         for (let i = 1; i < this.state.rooms.length; i++) {
             axios.post(`${url}/room_member/${rooms[i]}`, {}, config)
                 .then((data) => data)
