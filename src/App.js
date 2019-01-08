@@ -6,12 +6,12 @@ import axios from 'axios'
 import RoomList from "./components/RoomList";
 import Header from "./components/Header";
 
+var timer = null;
 const url = process.env.NODE_ENV === 'development' ? 'http://localhost:5555' : 'http://saarsayfan.pythonanywhere.com/';
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.timer = null;
         this.state = {
             rooms: [],
             roomName: 'room0',
@@ -26,11 +26,12 @@ class App extends Component {
     };
 
     onLogout = () => {
-        this.timer = null;
+        clearInterval(timer);
+        timer = null;
         this.setState({...this.state,
             authToken: '',
             rooms: [],
-            messages: [['!ALERT', 'SYSTEM', 'Not Logged In']]});
+            messages: [['!ALERT', 'SYSTEM', 'Not Logged In']]}, function () {console.log(this.state)});
     };
 
     onRoomChange = (room) => {
@@ -43,7 +44,21 @@ class App extends Component {
             .then((data) => {
                 this.getRooms();
             })
-            .catch(e => this.onError(e));
+            .catch(e => this.onError(e.message));
+    };
+
+    onDeleteRoom = (url, room) => {
+        axios.delete(`${url}/room/${room}`,
+            {headers: {Authorization: this.state.authToken}})
+            .then((data) => {
+                let newRooms = this.state.rooms;
+                let index = newRooms.indexOf(room);
+                if (index !== -1) {
+                    newRooms.splice(index, 1);
+                }
+                this.setState({...this.state, rooms: newRooms, roomName: 'room0'});
+            })
+            .catch(e => this.onError(e.message));
     };
 
     getRooms = () => {
@@ -61,8 +76,8 @@ class App extends Component {
         axios.post(`${url}/room_member/${rooms[0]}`, {}, config)
             .then((data) => data)
             .catch(e => console.log(e))
-            .then(() => {if (this.timer === null){
-                this.timer = setInterval(() => this.fetchMessages(), 500)}});
+            .then(() => {if (timer === null){
+                timer = setInterval(() => this.fetchMessages(), 500)}});
         for (let i = 1; i < this.state.rooms.length; i++) {
             axios.post(`${url}/room_member/${rooms[i]}`, {}, config)
                 .then((data) => data)
@@ -71,26 +86,28 @@ class App extends Component {
     };
 
     fetchMessages = () => {
-        let room = this.state.roomName;
-        // console.log("Fetch Messages: " + room);
-        const config = {headers: {Authorization: this.state.authToken}};
-        const end = new Date().toISOString();
-        let start = new Date();
-        start.setDate(start.getDate() - 10000);
-        start = start.toISOString();
+        if (this.state.rooms !== [])
+        {
+            let room = this.state.roomName;
+            const config = {headers: {Authorization: this.state.authToken}};
+            const end = new Date().toISOString();
+            let start = new Date();
+            start.setDate(start.getDate() - 10000);
+            start = start.toISOString();
 
-        axios.get(`${url}/messages/${room}/${start}/${end}`, config)
-            .then((response) => {
-                let messages = response.data.result;
-                if (messages.length !== this.state.messages.length) {
-                    this.setState({...this.state, messages: response.data.result});
-                }
-            })
-            .catch(e => console.log(e));
+            axios.get(`${url}/messages/${room}/${start}/${end}`, config)
+                .then((response) => {
+                    let messages = response.data.result;
+                    if (messages.length !== this.state.messages.length) {
+                        this.setState({...this.state, messages: response.data.result});
+                    }
+                })
+                .catch(e => console.log(e));
+        }
     };
 
     onError = (error) => {
-        this.setState({...this.state, error: error.message})
+        this.setState({...this.state, error: error}, function () {console.log(this.state.error)});
     };
 
     clearError = () => {
@@ -100,7 +117,9 @@ class App extends Component {
     render() {
         let roomList = <RoomList rooms={this.state.rooms}
                                  onRoomChange={this.onRoomChange}
-                                 activeRoom={this.state.roomName}/>;
+                                 activeRoom={this.state.roomName}
+                                 onDeleteRoom={this.onDeleteRoom}
+                                 url={url}/>;
         const scrollStyle = {content: {'overflowY': 'hidden', 'overflowX': 'hidden'}};
         let vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         let height = vh - (this.state.error === '' ? 124 :  174);

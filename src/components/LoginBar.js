@@ -33,7 +33,7 @@ class LoginBar extends Component {
                 this.setState({...this.state, loggedIn: true})
             })
             .catch(e => {
-                this.props.onError(e);
+                this.props.onError(e.message);
                 this.setState({...this.state, loggedIn: false})
             });
         event.preventDefault();
@@ -41,7 +41,7 @@ class LoginBar extends Component {
 
     handleLogout = (event) => {
         this.props.onLogout();
-        this.state.loggedIn = false;
+        this.setState({...this.state, loggedIn: false});
         event.preventDefault();
     };
 
@@ -52,7 +52,7 @@ class LoginBar extends Component {
             handle: this.state.nickname
         })
             .then((data) => this.handleLogin(event))
-            .catch(e => this.props.onError(e));
+            .catch(e => this.props.onError(e.message));
         event.preventDefault();
     };
 
