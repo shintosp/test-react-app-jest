@@ -7,7 +7,7 @@ import RoomList from "./components/RoomList";
 import Header from "./components/Header";
 
 var timer = null;
-const url = process.env.NODE_ENV === 'development' ? 'http://localhost:5555' : 'http://saarsayfan.pythonanywhere.com/';
+const url = process.env.NODE_ENV === 'development' ? 'http://localhost:5555' : 'https://saarsayfan.pythonanywhere.com/';
 
 class App extends Component {
     constructor(props) {
