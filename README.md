@@ -1,8 +1,15 @@
 # rumble-react
 A react client for the rumble server
 
-## Deployment on PythonAnywhere
-### First Time Prerequisites
+
+## Deployment on Heroku:
+Make changes and commit, then:
+`git push heroku master`
+
+https://rumble-react.herokuapp.com/
+
+### Deployment on PythonAnywhere **DEPRECATED\**
+#### First Time Prerequisites
 Run the following commands in a [PythonAnywhere console](
 https://www.pythonanywhere.com/user/saarsayfan/consoles):
 ```
@@ -21,7 +28,7 @@ npm install
 ```
 Or run `install_node.py` (Untested)
 
-### General Deployment
+#### General Deployment
 ```
 cd rumble-react
 python pythonanywhere_deploy.py
