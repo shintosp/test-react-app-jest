@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Media, Label } from 'react-bootstrap';
+import { Media, Badge } from 'react-bootstrap';
 import './../App.css';
 
 class MessageList extends Component {
@@ -48,7 +48,7 @@ class MessageList extends Component {
                 <Media.Body>
                     <Media.Heading>
                         {message[1] + " "}
-                        <Label bsStyle={"info"}>{this.formatDate(message[0])}</Label>
+                        <Badge bsStyle={"info"}>{this.formatDate(message[0])}</Badge>
                     </Media.Heading>
                     <li>{message[2]}</li>
                 </Media.Body>
