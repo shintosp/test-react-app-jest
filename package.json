@@ -7,7 +7,7 @@
     "bootstrap": "3.3.7",
     "gh-pages": "^1.2.0",
     "now": "^11.2.1",
-    "react": "^16.4.0",
+    "react": "^16.7.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",
     "react-scripts": "1.1.4",
